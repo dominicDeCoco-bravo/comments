@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>blog</title>
+    <style>
+      html, body {
+        height: 100%;
+      }
+      #wrapper {
+        width: 80%;
+        display: table;
+        height: 100%;
+        text-align: center;
+      }
+      #content {
+        width: 80%;
+        display: table-row;
+        height: 100%;
+      }
+      </style>
+  </head>
+  <body>
+    <script>
+      function deleteRecord(id) {
+    
+    var url = "http://localhost:5000/delete";
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", url+'/' + id, false);
+    xhr.onload = function () {
+
+    if (xhr.readyState == 4 && xhr.status == "200") {
+       console.log('ready response:', xhr.responseText);
+     } else {
+       console.error(users);
+     }
+   }
+   xhr.send(null);
+  }
+    </script>
+    <div id="wrapper">
+
+      <div id="content">
+        {% block content %}
+          {% for com in comments %}
+          
+            <p>{{com[1]}}
+               <a href="http://localhost:5000"> <button onclick='deleteRecord({{com[0]}})'>Удалить</button></a>
+               </p>
+          {% endfor %}
+        {% endblock content %}
+      </div>
+    
+      <div id="footer">
+        <form action="{{url_for('add_comm')}}" method="post">
+        <p><textarea name="text" cols="70" placeholder="Введите комментарий"></textarea>
+        <button type="submit">Добавить</button></p>
+        </form>
+      </div>
+    
+    </div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
